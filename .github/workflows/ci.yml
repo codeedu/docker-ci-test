@@ -73,7 +73,8 @@ jobs:
         id: build-ci
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          context: ./
+          context: ./nestjs-project
+          file: ../Dockerfile
           #push: ${{ github.event_name != 'pull_request' }}
           push: false
           load: true
@@ -91,7 +92,8 @@ jobs:
         id: build-and-push-final
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          context: ./
+          context: ./nestjs-project
+          file: ../Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           load: false
           tags: ${{ steps.meta.outputs.tags }}
