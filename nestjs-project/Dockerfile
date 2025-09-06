@@ -18,13 +18,6 @@ RUN apt update && apt install -y \
 
 # add vs copy
 
-#ADD --checksum=sha256:278888 http://ftp.de.debian.org/debian/pool/main/c/curl/curl_7.88.1-10+deb12u12_amd64.deb /tmp/curl.deb
-ADD http://ftp.de.debian.org/debian/pool/main/c/curl/curl_7.88.1-10+deb12u12_amd64.deb /tmp/curl.deb
-# RUN script.sh
-# gzip, bzip2 or xz
-ADD curl-8.15.0.tar.gz /tmp/test
-
-
 USER node
 
 RUN mkdir /home/node/app
