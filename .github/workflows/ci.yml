@@ -78,14 +78,15 @@ jobs:
           push: false
           load: true
           target: ci
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
+      - name: Up containers
+        run: docker-compose -f ./nestjs-project/compose.ci.yaml up -d --build
+      
       - name: Run tests
-        run: |
-          echo "Running tests (fake)..."
+        run: echo "Running tests..."
       
       - name: Build final
         id: build-and-push-final
@@ -96,8 +97,8 @@ jobs:
           load: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=$GITHUB_REF_NAME
-          cache-to: type=gha,mode=max,scope=$GITHUB_REF_NAME
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
