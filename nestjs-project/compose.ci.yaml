@@ -1,6 +1,6 @@
 services:
   nestjs:
-    image: agentinaluiz/docker-ci-test:ci
+    image: argentinaluiz/docker-ci-test:ci
     ports:
       - 3000:3000
     healthcheck:
