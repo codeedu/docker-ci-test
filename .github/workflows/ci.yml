@@ -83,7 +83,7 @@ jobs:
           cache-to: type=gha,mode=max
       
       - name: Up containers
-        run: docker-compose -f ./nestjs-project/compose.ci.yaml up -d --build
+        run: docker compose -f ./nestjs-project/compose.ci.yaml up -d --build
       
       - name: Run tests
         run: echo "Running tests..."
