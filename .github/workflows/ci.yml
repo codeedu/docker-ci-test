@@ -72,6 +72,8 @@ jobs:
       - name: Build CI
         id: build-ci
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           context: ./nestjs-project
           file: ./nestjs-project/Dockerfile.prod
@@ -82,7 +84,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          secrets: id=github_token,env=${{ secrets.GITHUB_TOKEN }}
+          secrets: id=github_token,env=GITHUB_TOKEN
       
       - name: Up containers
         run: docker compose -f ./nestjs-project/compose.ci.yaml up -d --build
