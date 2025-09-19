@@ -84,7 +84,7 @@ jobs:
           cache-to: type=gha,mode=max
           # tem como usar secrets como valor, env e files
           secrets: |
-            key=github_token,GITHUB_TOKEN=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
+            github_token=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
           
       
       - name: Up containers
