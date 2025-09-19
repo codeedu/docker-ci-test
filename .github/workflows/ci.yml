@@ -82,7 +82,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          secrets: id=github_token,src=/run/secrets/github_token
+          secrets: id=github_token,env=${{ secrets.GITHUB_TOKEN }}
       
       - name: Up containers
         run: docker compose -f ./nestjs-project/compose.ci.yaml up -d --build
