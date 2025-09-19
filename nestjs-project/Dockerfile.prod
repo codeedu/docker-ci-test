@@ -1,22 +1,11 @@
 FROM node:23.0.0-slim AS ci
 
-# baseado no quanto as instruções podem mudar
-# instruções que não mudam ou pouco mudam devem ficar no topo
-# ENV, ARG, RUN apt update, apt install
+ARG REPO_PATH=github.com/argentinaluiz/private-repo.git
 
 RUN apt update && apt install -y \
     git \
     curl && \
     rm -rf /var/lib/apt/lists/*
-
-# deterministicas e não deterministicas
-
-#RUN echo "hello world" > test.txt
-
-# ARG BUILD_TIMESTAMP
-# RUN echo "$BUILD_TIMESTAMP" > /build_time.txt
-
-# add vs copy
 
 USER node
 
@@ -28,6 +17,11 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/home/node/.npm,uid=1000,gid=1000,id=npm-cache \
     npm ci
+
+RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    git clone https://github_user:$GITHUB_TOKEN@${REPO_PATH} /app
+
+RUN chmod +x /app/script.sh
 
 COPY --chown=node:node . .
 
