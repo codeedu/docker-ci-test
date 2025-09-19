@@ -19,9 +19,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     npm ci
 
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
-    git clone https://github_user:$GITHUB_TOKEN@${REPO_PATH} /app
+    git clone https://github_user:$GITHUB_TOKEN@${REPO_PATH} /home/node/app
 
-RUN chmod +x /app/script.sh
+RUN chmod +x /home/node/app/script.sh
 
 COPY --chown=node:node . .
 
