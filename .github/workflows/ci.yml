@@ -100,7 +100,6 @@ jobs:
           context: ./nestjs-project
           file: ./nestjs-project/Dockerfile.prod
           push: ${{ github.event_name != 'pull_request' }}
-          load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
