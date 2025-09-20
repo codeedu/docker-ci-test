@@ -116,7 +116,7 @@ jobs:
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
-          to-env: production
+          to-latest: true
           organization: argentinaluiz
           ignore-unchanged: true
           only-severities: critical,high
