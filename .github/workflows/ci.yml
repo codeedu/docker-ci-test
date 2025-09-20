@@ -18,7 +18,8 @@ env:
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
+  SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
+  COMPARE_TAG: latest
 
 jobs:
   ci:
@@ -65,6 +66,12 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.revision=${{ env.SHA }}
+          tags: |
+            type=edge,branch=$repo.default_branch
+            type=semver,pattern=v{{version}}
+            type=sha,prefix=,suffix=,format=short
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -95,6 +102,7 @@ jobs:
       
       - name: Build for scout
         id: build-for-scout
+        if: ${{ github.event_name == 'pull_request' }}
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: ./nestjs-project
@@ -108,6 +116,13 @@ jobs:
           secrets: |
             github_token=${{ secrets.GITHUB_TOKEN }}
       
+      # - name: Check if ":latest" tag exists
+      #   if: github.event_name == 'pull_request'
+      #   id: check-latest-exists
+      #   continue-on-error: true
+      #   run: |
+      #     docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      
       - name: Docker Scout
         id: docker-scout
         if: ${{ github.event_name == 'pull_request' }}
@@ -115,7 +130,8 @@ jobs:
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
-          to-latest: true
+          to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.COMPARE_TAG }}
+          write-comment: true
           organization: argentinaluiz
           ignore-unchanged: true
           only-severities: critical,high
