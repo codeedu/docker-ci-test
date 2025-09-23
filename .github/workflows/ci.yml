@@ -18,7 +18,7 @@ env:
   REGISTRY: docker.io
   DOCKER_USERNAME: argentinaluiz
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: argentinaluiz/docker-ci-test
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
   COMPARE_TAG: latest
 
