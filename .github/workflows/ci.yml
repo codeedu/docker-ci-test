@@ -95,7 +95,7 @@ jobs:
           # tem como usar secrets como valor, env e files
           #github_token=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
           secrets: |
-            github_token=${{ secrets.GITHUB_TOKEN }}
+            github_token=${{ secrets.MY_GITHUB_TOKEN }}
           
       
       - name: Up containers
