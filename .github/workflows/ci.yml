@@ -129,6 +129,7 @@ jobs:
           only-severities: critical,high
           summary: true
           exit-code: true
+          only-fixed: true
       
       - name: Analyze for all CVEs
         id: docker-scout-all-cves
