@@ -122,6 +122,25 @@ jobs:
           provenance: mode=max
           sbom: true
       
+
+      - name: Analyze for critical and high CVEs
+        id: docker-scout-cves
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: ${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
+          sarif-file: sarif.output.json
+          summary: true
+          exit-code: true
+
+      - name: Upload SARIF result
+        id: upload-sarif
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: sarif.output.json
+          
       # - name: Check if ":latest" tag exists
       #   if: github.event_name == 'pull_request'
       #   id: check-latest-exists
@@ -158,24 +177,6 @@ jobs:
           secrets: |
             github_token=${{ secrets.GITHUB_TOKEN }}
       
-      - name: Analyze for critical and high CVEs
-        id: docker-scout-cves
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/scout-action@v1
-        with:
-          command: cves
-          image: ${{ steps.meta.outputs.tags }}
-          only-severities: critical,high
-          sarif-file: sarif.output.json
-          summary: true
-          exit-code: true
-
-      - name: Upload SARIF result
-        id: upload-sarif
-        #if: ${{ github.event_name != 'pull_request' }}
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: sarif.output.json
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
