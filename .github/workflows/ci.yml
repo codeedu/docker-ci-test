@@ -163,6 +163,7 @@ jobs:
         with:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
           sarif-file: sarif.output.json
           summary: true
 
