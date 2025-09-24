@@ -119,6 +119,8 @@ jobs:
           cache-to: type=gha,mode=max
           secrets: |
             github_token=${{ secrets.GITHUB_TOKEN }}
+          provenance: mode=max
+          sbom: true
       
       # - name: Check if ":latest" tag exists
       #   if: github.event_name == 'pull_request'
@@ -158,7 +160,7 @@ jobs:
       
       - name: Analyze for critical and high CVEs
         id: docker-scout-cves
-        #if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/scout-action@v1
         with:
           command: cves
@@ -166,6 +168,7 @@ jobs:
           only-severities: critical,high
           sarif-file: sarif.output.json
           summary: true
+          exit-code: true
 
       - name: Upload SARIF result
         id: upload-sarif
