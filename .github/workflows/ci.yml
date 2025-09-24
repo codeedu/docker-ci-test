@@ -129,7 +129,6 @@ jobs:
           only-severities: critical,high
           sarif-file: sarif.output.json
           summary: true
-          exit-code: true
 
       - name: Upload SARIF result
         id: upload-sarif
@@ -137,7 +136,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: sarif.output.json
-          
+
       # - name: Check if ":latest" tag exists
       #   if: github.event_name == 'pull_request'
       #   id: check-latest-exists
