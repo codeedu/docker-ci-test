@@ -127,8 +127,17 @@ jobs:
           command: cves
           image: ${{ steps.meta.outputs.tags }}
           only-severities: critical,high
-          sarif-file: sarif.output.json
           summary: true
+          exit-code: true
+      
+      - name: Analyze for all CVEs
+        id: docker-scout-all-cves
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: ${{ steps.meta.outputs.tags }}
+          summary: true
+          sarif-file: sarif.output.json
 
       - name: Upload SARIF result
         id: upload-sarif
