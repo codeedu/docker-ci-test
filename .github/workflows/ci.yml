@@ -112,7 +112,7 @@ jobs:
           context: ./nestjs-project
           file: ./nestjs-project/Dockerfile.prod
           push: false
-          load: true
+          outputs: type=cacheonly
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
