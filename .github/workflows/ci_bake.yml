@@ -117,6 +117,9 @@ jobs:
           push: false
           load: true
           targets: prod
+          files: |
+            ./docker-bake.hcl
+            cwd://${{ steps.meta.outputs.bake-file-labels }}
           set: |
             prod.cache-from=type=gha
             prod.cache-to=type=gha,mode=max
