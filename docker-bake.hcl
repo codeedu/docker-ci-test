@@ -23,6 +23,7 @@ group "default" {
 }
 
 target "prod" {
+    inherits = ["docker-metadata-action"]
     context = "./nestjs-project"
     dockerfile = "./Dockerfile.prod"
     #tags = split(",", TAGS)\
