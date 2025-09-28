@@ -1,3 +1,4 @@
+
 variable "IMAGE_NAME" {
   default = "argentinaluiz/docker-ci-test"
 }
@@ -14,6 +15,7 @@ variable "CACHE_TO" {
   default = null
 }
 
+target "docker-metadata-action" {}
 
 
 group "default" {
