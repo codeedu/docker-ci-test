@@ -91,7 +91,7 @@ jobs:
           set: |
             ci.cache-from=type=gha
             ci.cache-to=type=gha,mode=max
-            tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
+            ci.tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
