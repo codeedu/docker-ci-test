@@ -87,6 +87,7 @@ jobs:
         with:
           push: false
           load: true
+          targets: ci
           set: |
             ci.cache-from=type=gha
             ci.cache-to=type=gha,mode=max
