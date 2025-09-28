@@ -107,21 +107,20 @@ jobs:
       - name: Run tests
         run: echo "Running tests..."
       
-      # - name: Build for analysis
-      #   id: build-for-analysis
-      #   if: ${{ github.event_name == 'pull_request' }}
-      #   uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-      #   with:
-      #     context: ./nestjs-project
-      #     file: ./nestjs-project/Dockerfile.prod
-      #     push: false
-      #     load: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     secrets: |
-      #       github_token=${{ secrets.GITHUB_TOKEN }}
+      - name: Build for analysis
+        id: build-for-analysis
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/bake-action@v6
+        env:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          push: false
+          load: true
+          set: |
+            prod.cache-from=type=gha
+            prod.cache-to=type=gha,mode=max
+            prod.tags=${{ steps.meta.outputs.tags }}
+            prod.labels=${{ steps.meta.outputs.labels }}
       
       # - name: Analyze for critical and high CVEs
       #   id: docker-scout-cves
