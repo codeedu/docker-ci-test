@@ -116,6 +116,7 @@ jobs:
         with:
           push: false
           load: true
+          targets: prod
           set: |
             prod.cache-from=type=gha
             prod.cache-to=type=gha,mode=max
