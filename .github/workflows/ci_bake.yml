@@ -121,7 +121,6 @@ jobs:
             prod.cache-from=type=gha
             prod.cache-to=type=gha,mode=max
             prod.tags=${{ steps.meta.outputs.tags }}
-            prod.labels=${{ steps.meta.outputs.labels }}
       
       # - name: Analyze for critical and high CVEs
       #   id: docker-scout-cves
