@@ -178,7 +178,7 @@ jobs:
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         with:
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           provenance: mode=max
           sbom: true
           targets: prod
@@ -189,7 +189,7 @@ jobs:
             prod.cache-from=type=gha
             prod.cache-to=type=gha,mode=max
             prod.tags=${{ steps.meta.outputs.tags }}
-
+            
           
       
       
